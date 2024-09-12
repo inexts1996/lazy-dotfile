@@ -1,10 +1,5 @@
 return {
   {
-    "nvimdev/dashboard-nvim",
-    enabled = false,
-  },
-  -- messages, cmdline and the popupmenu
-  {
     "folke/noice.nvim",
     opts = function(_, opts)
       table.insert(opts.routes, {
@@ -81,7 +76,6 @@ return {
     priority = 1200,
     config = function()
       local devicons = require("nvim-web-devicons")
-      local helpers = require("incline.helpers")
       require("incline").setup({
         render = function(props)
           local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
@@ -127,13 +121,28 @@ return {
           return {
             { get_diagnostic_label() },
             { get_git_diff() },
-            { (ft_icon or "") .. " ", guifg = helpers.contrast_color(ft_color), guibg = ft_color },
+            { (ft_icon or "") .. " ", guifg = ft_color, guibg = nil },
             { filename .. " ", gui = vim.bo[props.buf].modified and "bold,italic" or "bold" },
             { "┊  " .. vim.api.nvim_win_get_number(props.win), group = "DevIconWindows" },
-            guibg = "#363944",
           }
         end,
       })
     end,
+  },
+  -- LazyGit integration with Telescope
+  {
+    "kdheepak/lazygit.nvim",
+    keys = {
+      {
+        ";c",
+        ":LazyGit<Return>",
+        silent = true,
+        noremap = true,
+      },
+    },
+    -- optional for floating window border decoration
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
   },
 }

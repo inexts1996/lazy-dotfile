@@ -12,6 +12,11 @@ return {
         legacy_highlights = true, -- Improve compatibility for previous versions of Neovim
         migrations = true, -- Handle deprecated options automatically
       },
+      styles = {
+        bold = false,
+        italic = true,
+        transparency = false,
+      },
     },
   },
   {
